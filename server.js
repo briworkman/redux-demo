@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const port = 3333;
+const port = 5000;
 
 const server = express();
 server.use(express.json());
@@ -12,74 +12,79 @@ const sendUserError = (msg, res) => {
   return;
 };
 
-let smurfs = [
+let wizards = [
   {
-    name: 'Brainey',
-    age: 200,
-    height: '5cm',
-    id: 0
-  }
+    name: 'Harry',
+    age: 11,
+    id: 0,
+  },
+  {
+    name: 'Hermoine',
+    age: 12,
+    id: 1,
+  },
+  {
+    name: 'Ron',
+    age: 11,
+    id: 2,
+  },
 ];
-server.get('/smurfs', (req, res) => {
-  res.json(smurfs);
+server.get('/', (req, res) => {
+  res.json(wizards);
 });
-let smurfId = smurfs.length;
+let wizardId = wizards.length;
 
-server.post('/smurfs', (req, res) => {
-  const { name, age, height } = req.body;
-  const newSmurf = { name, age, height, id: smurfId };
-  if (!name || !age || !height) {
+server.post('/', (req, res) => {
+  const { name, age } = req.body;
+  const newWizard = { name, age, id: wizardId };
+  if (!name || !age) {
     return sendUserError(
-      'Ya gone did smurfed! Name/Age/Height are all required to create a smurf in the smurf DB.',
+      'Oh No! name and age are all required to add a wizard to hogwarts!',
       res
     );
   }
-  const findSmurfByName = smurf => {
-    return smurf.name === name;
+  const findWizardByName = (wizard) => {
+    return wizard.name === name;
   };
-  if (smurfs.find(findSmurfByName)) {
-    return sendUserError(
-      `Ya gone did smurfed! ${name} already exists in the smurf DB.`,
-      res
-    );
+  if (wizards.find(findWizardByName)) {
+    return sendUserError(`Uh oh! ${name} already attends Hogwarts.`, res);
   }
 
-  smurfs.push(newSmurf);
-  smurfId++;
-  res.json(smurfs);
+  wizards.push(newWizard);
+  wizardId++;
+  res.json(wizards);
 });
 
-server.put('/smurfs/:id', (req, res) => {
+server.put('/wizards/:id', (req, res) => {
   const { id } = req.params;
-  const { name, age, height } = req.body;
-  const findSmurfById = smurf => {
-    return smurf.id == id;
+  const { name, age } = req.body;
+  const findWizardById = (wizard) => {
+    return wizard.id == id;
   };
-  const foundSmurf = smurfs.find(findSmurfById);
-  if (!foundSmurf) {
-    return sendUserError('No Smurf found by that ID', res);
+  const foundWizard = wizards.find(findWizardById);
+  if (!foundWizard) {
+    return sendUserError('No Wizard found by that ID', res);
   } else {
-    if (name) foundSmurf.name = name;
-    if (age) foundSmurf.age = age;
-    if (height) foundSmurf.height = height;
-    res.json(smurfs);
+    if (name) foundWizard.name = name;
+    if (age) foundWizard.age = age;
+    res.json(wizards);
   }
 });
 
-server.delete('/smurfs/:id', (req, res) => {
+server.delete('/wizards/:id', (req, res) => {
   const { id } = req.params;
-  const foundSmurf = smurfs.find(smurf => smurf.id == id);
+  const foundWizard = wizards.find((wizard) => wizard.id == id);
 
-  if (foundSmurf) {
-    const SmurfRemoved = { ...foundSmurf };
-    smurfs = smurfs.filter(smurf => smurf.id != id);
-    res.status(200).json(smurfs);
+  if (foundWizard) {
+    const WizardRemoved = { ...foundWizard };
+    wizards = wizards.filter((wizard) => wizard.id != id);
+    res.status(200).json(wizards);
   } else {
-    sendUserError('No smurf by that ID exists in the smurf DB', res);
+    sendUserError('No wizard by that ID attends hogwarts', res);
   }
 });
 
-server.listen(port, err => {
+server.listen(port, (err) => {
   if (err) console.log(err);
   console.log(`server is listening on port ${port}`);
 });
