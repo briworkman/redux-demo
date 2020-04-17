@@ -10,10 +10,6 @@ export const fetchWizards = () => (dispatch) => {
   dispatch({ type: START_FETCHING });
   axios
     .get('http://localhost:5000')
-    .then((res) => {
-      console.log(res.data);
-      return res;
-    })
     .then((res) => dispatch({ type: FETCH_SUCCESS, payload: res.data }))
     .catch((err) => dispatch({ type: FETCH_FAILURE, payload: err.response }));
 };
