@@ -23,11 +23,17 @@ In this challenge, you are to build a Smurfs village utilizing context or Redux 
 Demonstrate your understanding of this Sprint's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your project manager.
 
 - [ ] What problem does the context API help solve?
+You store data on a context object and get the data from the necessary components without using props. 
 - [ ] In your own words, describe `actions`, `reducers` and the `store` and their role in Redux. What does each piece do? Why is the store known as a 'single source of truth' in a redux application?
+An action has a type property and a payload propery that when we pass it to the reducer the reducer will know what action and payload to update the state with. 
+The reducer accepts a previous state and then will return what you requested next in the application. As well as letting us manage the state. 
+The store is a single JavaScript Object that contains the state of our application. It is known as a single source of truth because when you want to change something in your redux application instead of changing the data you change the store. 
 - [ ] What is the difference between Application state and Component state? When would be a good time to use one over the other?
+Your Application state is global and your component state is local.A component states lives within a component so you have to pass it down via props. Application state means any application in any componenet can access it. Application state is best to be used when state needs to be shared with multiple components like in a redux application, component state is good to use when it is a smaller app with less things to pass through. 
 - [ ] Describe `redux-thunk`, what does it allow us to do? How does it change our `action-creators`?
+Redux-thunk middleware allows you to write action creators into functions so that you can delay the dispatch or have the dispatch appear only if something else happens or an if else. Similiar to an if statement, for example doing a loading page then a when that dispatch is done it will load the action you are trying to display next. 
 - [ ] What is your favorite state management system you've learned and this sprint? Please explain why!
-
+Async redux clicked the best for me. I felt it was similiar to what we have been doing especially with axios.get but the flow of it made more sense than the other state managements. Everything connected in a very explainable way and the extra files with the actions and reducer file made it easier to contain my thoughts and understand the connections. 
 ## Project Set Up
 
 Follow these steps to set up your project:
